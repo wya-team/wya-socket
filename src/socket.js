@@ -44,6 +44,11 @@ class Socket {
 
 		// 默认处理
 		this.socket.addEventListener("message", ({ data }) => {
+			try {
+				data = JSON.parse(data);
+			} catch (e) {
+				
+			}
 			if (typeof data === 'object' && data.event) {
 				const { event, ...rest } = data;
 				this._publish(event, {
@@ -79,7 +84,11 @@ class Socket {
 	 */
 	send(msg) {
 		if (this.validator(2)) return;
-		this.socket.send(msg);
+		this.socket.send(
+			typeof msg === 'object' 
+				? JSON.stringify(msg) 
+				: msg
+		);
 	}
 	/**
 	 * 关闭
@@ -97,10 +106,10 @@ class Socket {
 	 * 发布的事件推向服务器的
 	 */
 	emit(event, data) {
-		this.socket.send({
+		this.socket.send(JSON.stringify({
 			event,
 			data
-		});
+		}));
 	}
 	/**
 	 * unsubscribe/off
