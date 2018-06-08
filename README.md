@@ -21,7 +21,7 @@ npm install wya-socket --save
 - `close` 关闭
 - `off` 取消订阅
 
-```
+```js
 import { Socket } from '../src/main';
 
 const socket = new Socket();
