@@ -1,8 +1,8 @@
 {
   "name": "wya-socket",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "wya-socket for js",
-  "main": "index.js",
+  "main": "lib/main.js",
   "files": [
     "src/**",
     "lib/**",
