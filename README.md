@@ -22,7 +22,7 @@ npm install wya-socket --save
 - `off` 取消订阅
 
 ```js
-import { Socket } from '../src/main';
+import { Socket } from 'wya-socket';
 
 const socket = new Socket();
 
