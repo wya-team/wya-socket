@@ -27,7 +27,7 @@ import { Socket } from 'wya-socket';
 
 const socket = new Socket();
 
-socket.connect('ws://116.62.29.171:7272');
+socket.connect('请输入链接地址');
 // 默认事件订阅 
 socket.on('message', (e) => {
 	console.log(e);

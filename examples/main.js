@@ -2,7 +2,7 @@ import { Socket } from '../src/main';
 
 const socket = new Socket();
 
-socket.connect('ws://116.62.29.171:7272');
+socket.connect('wss://www.baidu.com');
 
 socket.on('message', (e) => {
 	console.log(e);
