@@ -18,6 +18,7 @@ npm install wya-socket --save
 - `connect` 链接
 - `on` 客服端订阅
 - `emit` 发布事件 -> 服务器
+- `send` 发送消息 `{ data }`
 - `close` 关闭
 - `off` 取消订阅
 
