@@ -59,8 +59,9 @@ class Socket {
 					data
 				});
 			}
-			
 		});
+
+		return this;
 	}
 	/**
 	 * socket原生订阅
@@ -73,11 +74,12 @@ class Socket {
 			case 'error':
 				if (this.validator(2)) return;
 				this.socket.addEventListener(event, callback);
-				return;
+				return this;
 			default:
 				this._subscribe(event, callback);
-				return;
+				return this;
 		}
+		return this;
 	}
 	/**
 	 * 发送
@@ -89,6 +91,8 @@ class Socket {
 				? JSON.stringify(msg) 
 				: msg
 		);
+
+		return this;
 	}
 	/**
 	 * 关闭
@@ -110,6 +114,8 @@ class Socket {
 			event,
 			data
 		}));
+
+		return this;
 	}
 	/**
 	 * unsubscribe/off
