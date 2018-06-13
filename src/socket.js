@@ -135,7 +135,7 @@ class Socket {
 	/**
 	 * 客服端订阅
 	 * 服务器推的发布事件，后出发
-	 * 私有类，内部使用
+	 * 私有方法，内部使用
 	 */
 	_subscribe(action, callback) {
 		if (typeof action === "object") {
@@ -161,7 +161,7 @@ class Socket {
 	/**
 	 * 指当接收到服务端相应的时候，客服端主动发布订阅，触发相关__events__ 和 __listeners__
 	 * 待开发: 服务器推的事件
-	 * 私有类，内部使用
+	 * 私有方法，内部使用
 	 */
 	_publish(event, opts = {}) {
 		if (opts instanceof Array || typeof opts !== 'object' || opts.event) {
