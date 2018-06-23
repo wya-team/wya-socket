@@ -25,7 +25,7 @@ class Socket {
 			return;
 		}
 		const { limit = 3, onError } = opts;
-		this.socket = new WebSocket(url);
+		this.socket = new WebSocket(url.replace('http', 'ws'));
 
 		// 失败重连
 		this.socket.addEventListener("error", e => {
@@ -37,7 +37,7 @@ class Socket {
 				return;
 			}
 			this.__count__++;
-			this.connect(url.replace('http', 'ws'), opts);
+			this.connect(url, opts);
 		});
 		this.socket.addEventListener("open", e => console.info(e));
 		this.socket.addEventListener("close", e => console.info(e));
