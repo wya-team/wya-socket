@@ -25,7 +25,7 @@ class Socket {
 			return;
 		}
 		const { limit = 3, onError } = opts;
-		this.socket = new WebSocket(url);
+		this.socket = new WebSocket(url.replace('http', 'ws'));
 
 		// 失败重连
 		this.socket.addEventListener("error", e => {
@@ -37,7 +37,7 @@ class Socket {
 				return;
 			}
 			this.__count__++;
-			this.connect(url.replace('http', 'ws'), opts);
+			this.connect(url, opts);
 		});
 		this.socket.addEventListener("open", e => console.info(e));
 		this.socket.addEventListener("close", e => console.info(e));
@@ -82,6 +82,24 @@ class Socket {
 		return this;
 	}
 	/**
+	 * 一次订阅
+	 */
+	once(event, callback) {
+		if (typeof event === 'string' && ( !this.__events__[event] || this.__events__[event].length === 0)) {
+			let fired = false;
+
+			const _callback = (opts) => {
+				this.off(event);
+				if (!fired) {
+					fired = true;
+					callback.call(this, opts);
+				}
+			};
+			this.on(event, _callback);
+		}
+		return this;
+	}
+	/**
 	 * 发送
 	 */
 	send(msg) {
@@ -121,16 +139,26 @@ class Socket {
 	 * unsubscribe/off
 	 * 删除一个指定的事件队列
 	 * @param  {string} event 需要删除的事件名
+	 * @param  {func} fn 需要卸载的函数名
 	 * @return {object} 返回自身以便于链式调用
 	 */
-	off(event) {
-		if (typeof event === 'string') {
-			this.__events__[event] = [];
-		} else if (typeof event === undefined){
-			this.__listeners__ = [];
+	off(event, fn) {
+		switch (event) {
+			case 'close':
+			case 'message':
+			case 'open':
+			case 'error':
+				if (this.validator(2) || !fn) return this;
+				this.socket.removeEventListener(event, fn);
+				return this;
+			default:
+				if (typeof event === 'string') {
+					this.__events__[event] = [];
+				} else if (typeof event === undefined){
+					this.__listeners__ = [];
+				}
+				return this;
 		}
-
-		return this;
 	}
 	/**
 	 * 客服端订阅
