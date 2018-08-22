@@ -23,6 +23,10 @@ npm install wya-socket --save
 - `close` 关闭
 - `off` 取消订阅
 
+##### 其他
+- `first` 客服端订阅（保留第一个, 也可以直接用`off`后用`on`）
+- `last` 客服端订阅（保留最后一个, 也可以直接用`off`后用`on`）
+
 ```js
 import { Socket } from 'wya-socket';
 

@@ -82,7 +82,7 @@ class Socket {
 		return this;
 	}
 	/**
-	 * 一次订阅
+	 * 一次订阅，发布后取消
 	 */
 	once(event, callback) {
 		if (typeof event === 'string' && ( !this.__events__[event] || this.__events__[event].length === 0)) {
@@ -96,6 +96,28 @@ class Socket {
 				}
 			};
 			this.on(event, _callback);
+		}
+		return this;
+	}
+	/**
+	 * 只执行第一次订阅
+	 */
+	first(event, callback) {
+		if (typeof event === 'string' && ( !this.__events__[event] || this.__events__[event].length === 0)) {
+			this.on(event, callback);
+		}
+		return this;
+	}
+	/**
+	 * 只执行最后一次订阅
+	 */
+	last(event, callback) {
+		if (typeof event === 'string') {
+			// 如果存在，先卸载事件
+			if (this.__events__[event] && this.__events__[event].length !== 0) {
+				this.off(event);
+			}
+			this.on(event, callback);
 		}
 		return this;
 	}
