@@ -3,7 +3,7 @@ import { Socket } from '../src/main';
 
 const socket = new Socket();
 
-socket.connect('ws://192.168.23.115:8832');
+socket.connect(`ws://${location.host}`);
 
 socket.on('message', (e) => {
 	console.log(`[Global Message]: ${e.data}`);
