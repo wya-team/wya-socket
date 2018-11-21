@@ -54,7 +54,7 @@ class Socket {
 			if (typeof data === 'object' && data.event) {
 				const { event, ...rest } = data;
 				this._publish(event, {
-					data: rest
+					...rest
 				});
 			} else {
 				this._publish({

@@ -12,8 +12,8 @@ socket.on('message', (e) => {
 let html = '';
 let target = document.getElementById('test');
 
-socket.on('client-event-sub', ({ data }) => {
-	let { id, content } = data || {};
+socket.on('client-event-sub', (res) => {
+	let { id, content } = res || {};
 	html += `${id}: ${content}<br />`;
 	target.innerHTML = html;
 });
