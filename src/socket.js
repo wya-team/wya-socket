@@ -1,6 +1,8 @@
 class Socket {
-	constructor() {
+	constructor(opts = {}) {
 		this.socket = undefined;
+		// socket返回数据解析器
+		this.__parser__ = opts.parser;
 		// 链接的次数
 		this.__count__ = 1;
 		// 监听的函数
@@ -45,9 +47,9 @@ class Socket {
 		// 默认处理
 		this.socket.addEventListener("message", ({ data }) => {
 			try {
-				data = JSON.parse(data);
+				data = (this.__parser__ || JSON.parse)(data);
 			} catch (e) {
-				
+				console.error(e);
 			}
 			if (typeof data === 'object' && data.event) {
 				const { event, ...rest } = data;
