@@ -1,4 +1,4 @@
-# wya-socket
+# \@wya/socket
 [![npm][npm-image]][npm-url] [![changelog][changelog-image]][changelog-url]
 
 ## [Demo](https://wya-team.github.io/wya-socket/demo/index.html)
@@ -12,7 +12,7 @@
 ## 安装
 
 ```vim
-npm install wya-socket --save
+npm install @wya/socket --save
 ```
 ## 使用方法
 - `connect` 链接
@@ -55,5 +55,5 @@ socket.on((e) => {
 [changelog-image]: https://img.shields.io/badge/changelog-md-blue.svg
 [changelog-url]: CHANGELOG.md
 
-[npm-image]: https://img.shields.io/npm/v/wya-socket.svg
-[npm-url]: https://www.npmjs.com/package/wya-socket
+[npm-image]: https://img.shields.io/npm/v/@wya/socket.svg
+[npm-url]: https://www.npmjs.com/package/@wya/socket

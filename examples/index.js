@@ -1,5 +1,5 @@
 // 先执行 node server.js
-import { Socket } from '../src/main';
+import { Socket } from '../src/index';
 
 const socket = new Socket();
 
