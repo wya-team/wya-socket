@@ -9,6 +9,8 @@ class Socket {
 		this.__listeners__ = [];
 		// 订阅的事件
 		this.__events__ = {};
+		// socket原生订阅事件
+		this.__native__ = {};
 	}
 	validator(type = 0) {
 		if (this.socket && type === 1) {
@@ -40,8 +42,12 @@ class Socket {
 			}
 			this.__count__++;
 			this.connect(url, opts);
+			this._rebind();
 		});
-		this.socket.addEventListener("open", e => console.info(e));
+		this.socket.addEventListener("open", e => {
+			console.info(e);
+			this.__count__ = 1; // 连接成功后重置计数器
+		});
 		this.socket.addEventListener("close", e => console.info(e));
 
 		// 默认处理
@@ -75,6 +81,7 @@ class Socket {
 			case 'open':
 			case 'error':
 				if (this.validator(2)) return;
+				this.__native__[event] = callback;
 				this.socket.addEventListener(event, callback);
 				return this;
 			default:
@@ -147,6 +154,7 @@ class Socket {
 		this.socket = null;
 		this.__listeners__ = [];
 		this.__events__ = {};
+		this.__native__ = {};
 	}
 	/**
 	 * 发布的事件推向服务器的
@@ -173,6 +181,7 @@ class Socket {
 			case 'open':
 			case 'error':
 				if (this.validator(2) || !fn) return this;
+				delete this.__native__[event];
 				this.socket.removeEventListener(event, fn);
 				return this;
 			default:
@@ -234,6 +243,16 @@ class Socket {
 			if (this.__listeners__[i].call(this, { ...opts, event }) === false) break;
 		}
 		return this;
+	}
+	/**
+	 * 由于重连，socket实例变更，需重新绑定原先订阅的事件
+	 */
+	_rebind() {
+		let events = Object.keys(this.__native__);
+		for (let i = 0, length = events.length; i < length; i++) {
+			let event = events[i];
+			this.socket.addEventListener(event, this.__native__[event]);
+		}
 	}
 };
 export default Socket;
