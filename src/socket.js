@@ -28,14 +28,14 @@ class Socket {
 			throw new Error(`参数错误 -> url必填`);
 			return;
 		}
-		const { limit = 3, onError } = opts;
+		const { limit, onError } = opts;
 		this.socket = new WebSocket(url.replace('http', 'ws'));
 
 		// 失败重连
 		this.socket.addEventListener("error", e => {
 			this.socket.close();
 			this.socket = null;
-			if (this.__count__ >= limit) {
+			if (limit && this.__count__ >= limit) {
 				throw new Error(`超过重连限制 -> limit: ${limit}`);
 				onError && onError();
 				return;
