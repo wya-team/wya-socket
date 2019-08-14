@@ -15,10 +15,8 @@ class Socket {
 	validator(type = 0) {
 		if (this.socket && type === 1) {
 			throw new Error(`已有一个实例，请先关闭`);
-			return true;
 		} else if (!this.socket && type === 2) {
 			throw new Error(`不存在实例，请先创建`);
-			return true;
 		}
 		return false;
 	}
@@ -26,29 +24,38 @@ class Socket {
 		if (this.validator(1)) return;
 		if (!url) {
 			throw new Error(`参数错误 -> url必填`);
-			return;
 		}
-		const { limit, onError } = opts;
+		const { limit = 10, interval = 3000, onError } = opts;
 		this.socket = new WebSocket(url.replace('http', 'ws'));
 
-		// 失败重连
-		this.socket.addEventListener("error", e => {
-			this.socket.close();
-			this.socket = null;
-			if (limit && this.__count__ >= limit) {
-				throw new Error(`超过重连限制 -> limit: ${limit}`);
-				onError && onError();
-				return;
-			}
-			this.__count__++;
-			this.connect(url, opts);
-			this._rebind();
-		});
 		this.socket.addEventListener("open", e => {
-			console.info(e);
+			console.info('socket/open: ', e);
 			this.__count__ = 1; // 连接成功后重置计数器
 		});
-		this.socket.addEventListener("close", e => console.info(e));
+
+		// 一般在error之后才会触发close
+		// Android端断开之后不会触发error事件，所以在close里面处理重连
+		this.socket.addEventListener("close", e => {
+			if (this.__count__ === 1) {
+				this.socket.close();
+				onError && onError({ msg: '连接已断开, 正在尝试重连...' });
+			}
+			this.socket = null;
+			if (limit && this.__count__ >= limit) {
+				onError && onError({ msg: '超过重连限制, 请尝试刷新页面' });
+				throw new Error(`超过重连限制 -> limit: ${limit}`);
+			}
+			this.__count__++;
+			setTimeout(() => {
+				this.connect(url, opts);
+				this._rebind();
+			}, interval);
+		});
+		
+		this.socket.addEventListener("error", e => {
+			console.log('socket/error', e);
+			onError && onError(e);
+		});
 
 		// 默认处理
 		this.socket.addEventListener("message", ({ data }) => {
