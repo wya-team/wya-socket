@@ -25,7 +25,7 @@ class Socket {
 		if (!url) {
 			throw new Error(`参数错误 -> url必填`);
 		}
-		const { limit, interval = 3000, onError } = opts;
+		const { limit = 10, interval = 3000, onError } = opts;
 		this.socket = new WebSocket(url.replace('http', 'ws'));
 
 		this.socket.addEventListener("open", e => {
