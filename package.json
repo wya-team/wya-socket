@@ -1,6 +1,6 @@
 {
   "name": "@wya/socket",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "description": "wya-socket for js",
   "main": "lib/index.js",
   "files": [
