@@ -1,7 +1,9 @@
 # \@wya/socket
 [![npm][npm-image]][npm-url] [![changelog][changelog-image]][changelog-url]
 
-## [Demo](https://wya-team.github.io/wya-socket/demo/index.html)
+- [Demo](https://wya-team.github.io/wya-socket/demo/index.html)
+
+- [Documents](https://wya-team.github.io/wya-socket/docs/#/)
 
 > 微一案WebSocket二次封装
 
