@@ -12,16 +12,18 @@ class Socket {
 		// socket原生订阅事件
 		this.__native__ = {};
 	}
-	validator(type = 0) {
+	verify(type = 0) {
 		if (this.socket && type === 1) {
-			throw new Error(`已有一个实例，请先关闭`);
+			console.error(`已有一个实例，请先关闭`);
+			return false;
 		} else if (!this.socket && type === 2) {
-			throw new Error(`不存在实例，请先创建`);
+			console.error(`不存在实例，请先创建`);
+			return false;
 		}
-		return false;
+		return true;
 	}
 	connect(url, opts = {}) {
-		if (this.validator(1)) return;
+		if (!this.verify(1)) return;
 		if (!url) {
 			throw new Error(`参数错误 -> url必填`);
 		}
@@ -87,7 +89,7 @@ class Socket {
 			case 'message':
 			case 'open':
 			case 'error':
-				if (this.validator(2)) return;
+				if (!this.verify(2)) return;
 				this.__native__[event] = callback;
 				this.socket.addEventListener(event, callback);
 				return this;
@@ -141,7 +143,7 @@ class Socket {
 	 * 发送
 	 */
 	send(msg) {
-		if (this.validator(2)) return;
+		if (!this.verify(2)) return;
 		this.socket.send(
 			typeof msg === 'object' 
 				? JSON.stringify(msg) 
@@ -154,7 +156,7 @@ class Socket {
 	 * 关闭
 	 */
 	close() {
-		if (this.validator(2)) return;
+		if (!this.verify(2)) return;
 
 		// 垃圾回收
 		this.socket.close();
@@ -187,7 +189,7 @@ class Socket {
 			case 'message':
 			case 'open':
 			case 'error':
-				if (this.validator(2) || !fn) return this;
+				if (!this.verify(2) || !fn) return this;
 				delete this.__native__[event];
 				this.socket.removeEventListener(event, fn);
 				return this;
@@ -233,7 +235,7 @@ class Socket {
 	 */
 	_publish(event, opts = {}) {
 		if (opts instanceof Array || typeof opts !== 'object' || opts.event) {
-			throw new TypeError('参数必须是对象, 且别带event关键字');
+			console.error('参数必须是对象, 且别带event关键字');
 			return this;
 		}
 		if (typeof event === 'string' 
