@@ -32,6 +32,7 @@ describe('socket.js', () => {
 
 			await promise;
 		} catch (e) {
+			console.log(e);
 			if (e.msg === '连接中断，重置Socket') {
 				console.warn('请先执行 npm run serve');
 			}
