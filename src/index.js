@@ -1,4 +1,10 @@
-export Socket from './socket';
+// let Socket;
+// if (typeof window !== 'undefined') {
+// 	Socket = require('./browser');
+// } else if (typeof process !== 'undefined') {
+// 	// TODO
+// 	Socket = require('./node');
+// }
 
-// 待开发
-// ...
+// exports.Socket = Socket;
+export { Socket } from './browser';
