@@ -1,14 +1,12 @@
 # \@wya/socket
 [![npm][npm-image]][npm-url] [![changelog][changelog-image]][changelog-url]
 
-- [Demo](https://wya-team.github.io/wya-socket/demo/index.html)
-
 - [Documents](https://wya-team.github.io/wya-socket/docs/#/)
 
 > 微一案WebSocket二次封装
 
-> - 初入`WebSocket`, 很遗憾由于目前后端限制，我们使用了原生的`WebSocket`;
-> - 此库的设计目的也是为今后学习`socket.io`的源码设计，做个铺垫
+> - 后端限制问题导出了这个库，仅支持浏览器的`WebSocket`
+> - 当后端支持，请使用`socket.io`;
 
 
 ## 安装
