@@ -325,5 +325,4 @@ class Socket {
 	}
 };
 
-// export default, require('./x').default
-module.exports = Socket;
+export default Socket;

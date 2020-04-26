@@ -1,9 +1,9 @@
 let Socket;
 if (typeof window !== 'undefined') {
-	Socket = require('./browser');
+	Socket = require('./browser').default;
 } else if (typeof process !== 'undefined') {
 	// TODO
-	Socket = require('./node');
+	Socket = require('./node').default;
 }
 
-exports.Socket = Socket;
+export { Socket };
